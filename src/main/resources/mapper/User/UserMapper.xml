@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxlh.dao.user.IUserDao">
+    <resultMap id="UserResult" type="com.qxlh.model.User">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="create_time" jdbcType="DATE" property="create_time" />
+        <result column="curr_login_time" jdbcType="DATE" property="curr_login_time" />
+        <result column="last_login_time" jdbcType="DATE" property="last_login_time" />
+        <result column="update_time" jdbcType="DATE" property="update_time" />
+        <result column="gender" jdbcType="INTEGER" property="gender" />
+        <result column="birthday" jdbcType="DATE" property="birthday" />
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+
+
+    </resultMap>
+
+    <select id="login" parameterType="com.qxlh.model.User" resultMap="UserResult">
+      select id,name,state
+      from sys_users
+      where name = #{name}  and password = #{password}
+    </select>
+    <select id="findById" parameterType="java.lang.Long" resultMap="UserResult">
+        select id,name from sys_users where id = #{id}
+    </select>
+
+    <select id="findByName" parameterType="java.lang.String" resultMap="UserResult">
+        select id,name from sys_users where name = #{name}
+    </select>
+    <select id="findByMobile" resultType="com.qxlh.model.User">
+
+        select * from sys_users where mobile=#{mobile}
+    </select>
+    <select id="findByMobileAndEmail" resultType="com.qxlh.model.User">
+        select * from sys_users where mobile = #{mobile} and email=#{email}
+
+    </select>
+    <update id="loginSuccess">
+        update sys_users set last_login_time=curr_login_time,curr_login_time=now() where id = #{id}
+    </update>
+    <update id="changepwd">
+        update sys_users set password=#{password} WHERE id=#{id}
+    </update>
+    <insert id="register" parameterType="com.qxlh.model.User" keyProperty="id" useGeneratedKeys="true">
+        insert into sys_users (name, password,mobile,email,create_time,curr_login_time)
+        values (#{name}, #{password},#{mobile}, #{email},now(),now())
+    </insert>
+
+
+
+</mapper>
