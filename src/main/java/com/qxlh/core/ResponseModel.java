@@ -1,5 +1,8 @@
 package com.qxlh.core;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import java.io.Serializable;
 
 public class ResponseModel<T> implements Serializable {
@@ -22,6 +25,10 @@ public class ResponseModel<T> implements Serializable {
 
     private T data;
 
+    private Page page;
+
+    private PageInfo<T> pageInfo;
+
     public ResponseModel(int code) {
         this.code = code;
         if(code == -2){
@@ -35,6 +42,11 @@ public class ResponseModel<T> implements Serializable {
     public ResponseModel(int code, String message) {
         this.code = code;
         this.message = message;
+    }
+
+    public ResponseModel(int code, Page page) {
+        this.code = code;
+        this.page = page;
     }
 
     public ResponseModel(int code, String message, T data) {
@@ -80,5 +92,20 @@ public class ResponseModel<T> implements Serializable {
         this.data = data;
     }
 
+    public Page getPage() {
+        return page;
+    }
+
+    public void setPage(Page page) {
+        this.page = page;
+    }
+
+    public PageInfo<T> getPageInfo() {
+        return pageInfo;
+    }
+
+    public void setPageInfo(PageInfo<T> pageInfo) {
+        this.pageInfo = pageInfo;
+    }
 }
 

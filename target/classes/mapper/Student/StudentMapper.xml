@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxlh.dao.student.IStudentDao">
+
+    <insert id="save" parameterType="com.qxlh.model.student.Student" keyProperty="id" useGeneratedKeys="true">
+     insert into sys_student (uid,number, password,username,identity_card,gender,birthday,mobile,email,create_time,update_time,avatar,school,college,status)
+     values (#{uid},#{number},#{password},#{username},#{identity_card},#{gender},#{birthday},#{mobile}, #{email},now(),now())
+ </insert>
+    <select id="findById" resultType="com.qxlh.model.student.Student">
+        select * from sys_student where id = #{id}
+
+    </select>
+    <select id="findByUid" resultType="com.qxlh.model.student.Student">
+        select * from sys_student where uid = #{uid}
+    </select>
+    <select id="findByName" resultType="com.qxlh.model.student.Student">
+        select * from sys_student where name = #{name}
+    </select>
+    <select id="findByNumber" resultType="com.qxlh.model.student.Student">
+        select * from  sys_student where number = #{number}
+    </select>
+
+</mapper>

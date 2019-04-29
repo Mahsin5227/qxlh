@@ -12,8 +12,6 @@ public class BaseController {
     @Resource
     protected HttpServletRequest request;
 
-
-
     protected String getParam(String name){
         return request.getParameter(name);
     }

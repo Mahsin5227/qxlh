@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxlh.dao.News.INewsCateDao">
+
+    <resultMap id="NewsCateResult" type="NewsCate">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="group_id" jdbcType="INTEGER" property="groupId" />
+        <result column="fid" jdbcType="INTEGER" property="fid" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="sort" jdbcType="INTEGER" property="sort" />
+    </resultMap>
+    <select id="findById" parameterType="java.lang.Integer" resultMap="NewsCateResult">
+      select
+        id,fid,name,status,sort
+        from sys_news_cate
+        where id = #{id}
+  </select>
+    
+
+    <select id="list" resultMap="NewsCateResult">
+      select
+        id,fid,name,status,sort
+        from sys_news_cate
+        ORDER BY sort desc,id DESC
+
+    </select>
+    <select id="findListByFid" resultMap="NewsCateResult">
+      select
+        id,fid,name,status,sort
+        from sys_news_cate
+        where fid = #{fid}
+    </select>
+    <select id="findListByGroupId" resultType="com.qxlh.model.News.NewsCate">
+        select
+        id,fid,name,status,sort
+        from sys_news_cate
+        where group_id = #{gid}
+
+    </select>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+      delete from sys_news_cate
+      where id = #{id}
+    </delete>
+
+    <insert id="save" parameterType="NewsCate">
+        insert into sys_news_cate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="group_id != null">group_id,</if>
+            <if test="fid != null">fid,</if>
+            <if test="name != null">name,</if>
+            <if test="status != null">status,</if>
+            <if test="sort != null">sort,</if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="group_id != null">#{groupId},</if>
+            <if test="fid != null">#{fid},</if>
+            <if test="name != null">#{name},</if>
+            <if test="status != null">#{status},</if>
+            <if test="sort != null">#{sort},</if>
+            now()
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="NewsCate">
+        update sys_news_cate
+        <set>
+            <if test="fid != null">fid = #{fid},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="sort != null">sort = #{sort},</if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

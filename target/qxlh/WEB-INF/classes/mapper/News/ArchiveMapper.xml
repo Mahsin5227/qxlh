@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxlh.dao.News.IArchiveDao">
+    <resultMap id="ArchiveResult" type="Archive">
+        <id column="archive_id" jdbcType="INTEGER" property="archiveId" />
+        <result column="post_type" jdbcType="INTEGER" property="postType" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="keywords" jdbcType="VARCHAR" property="keywords" />
+        <result column="view_rank" jdbcType="INTEGER" property="viewRank" />
+        <result column="view_count" jdbcType="INTEGER" property="viewCount" />
+        <result column="writer" jdbcType="VARCHAR" property="writer" />
+        <result column="source" jdbcType="VARCHAR" property="source" />
+        <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="thumbnail" jdbcType="VARCHAR" property="thumbnail" />
+        <result column="check_admin" jdbcType="INTEGER" property="checkAdmin" />
+    </resultMap>
+
+    <select id="findByArchiveId" resultMap="ArchiveResult">
+    select * from sys_archive
+    where archive_id = #{archiveId}
+  </select>
+    <delete id="delete" parameterType="java.lang.Integer">
+    delete from sys_archive
+    where archive_id = #{id}
+  </delete>
+    <insert id="save" parameterType="Archive" useGeneratedKeys="true" keyProperty="archiveId">
+    insert into sys_archive (title, user_id, create_time, description, keywords, view_rank,
+      view_count, writer, source, pub_time, thumbnail, content)
+    values (#{title}, #{userId}, now(), #{description}, #{keywords}, #{viewRank},
+      #{viewCount}, #{writer}, #{source}, now(), #{thumbnail}, #{content})
+  </insert>
+    <update id="updateViewCount" parameterType="java.lang.Integer">
+    update sys_archive set view_count=view_count+1 where archive_id=${archiveId}
+  </update>
+    <update id="update" parameterType="Archive">
+        update sys_archive
+        <set>
+            update_time = now(),
+            <if test="title != null">title = #{title},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="keywords != null">keywords = #{keywords},</if>
+            <if test="writer != null">writer = #{writer},</if>
+            <if test="source != null">source = #{source},</if>
+            <if test="thumbnail != null">thumbnail = #{thumbnail},</if>
+            <if test="content != null">content = #{content},</if>
+        </set>
+        where archive_id = #{archiveId}
+    </update>
+</mapper>
